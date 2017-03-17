@@ -1,0 +1,79 @@
+Generator expressions are similar to list, dictionary and set comprehensions, but are enclosed with parentheses.
+The parentheses do not have to be present when they are used as the sole argument for a function call.
+
+expression = (x**2 for x in range(10))
+This example generates the 10 first perfect squares, including 0 (in which x = 0).
+
+Generator functions are similar to regular functions, except that they have one or more yield statements in their body. Such functions cannot return any values 
+(however empty returns are allowed if you want to stop the generator early).
+
+def function():
+    for x in range(10):
+        yield x**2
+This generator function is equivalent to the previous generator expression, it outputs the same. Note: all generator expressions have their own equivalent functions, but not vice versa.
+
+A generator expression can be used without parentheses if both parentheses would be repeated otherwise:
+
+sum(i for i in range(10) if i % 2 == 0)   #Output: 20
+any(x = 0 for x in foo)                   #Output: True or False depending on foo
+type(a > b for a in foo if a % 2 == 1)    #Output: <class 'generator'>
+Instead of:
+
+sum((i for i in range(10) if i % 2 == 0))
+any((x = 0 for x in foo))
+type((a > b for a in foo if a % 2 == 1))
+But not:
+
+fooFunction((i for i in range(10) if i % 2 == 0,foo,bar)
+return x = 0 for x in foo
+barFunction(baz, a > b for a in foo if a % 2 == 1)
+Calling a generator function produces a generator object, which can later be iterated over. Unlike other types of iterators, generator objects may only be traversed once.
+
+g1 = function()
+print(g1)  # Out: <generator object function at 0x1012e1888>
+Notice that a generator's body is not immediately executed: when you call function() in the example above, it immediately returns a generator object, without executing 
+even the first print statement. This allows generators to consume less memory than functions that return a list, and it allows creating generators that produce infinitely long sequences.
+
+For this reason, generators are often used in data science, and other contexts involving large amounts of data. Another advantage is that other code can immediately use the values 
+yielded by a generator, without waiting for the complete sequence to be produced.
+
+However, if you need to use the values produced by a generator more than once, and if generating them costs more than storing, it may be better to store the yielded values as a 
+list than to re-generate the sequence.
+
+Typically a generator object is used in a loop, or in any function that requires an iterable:
+
+for x in g1:
+    print("Received", x)
+
+# Output:
+# Received 0
+# Received 1
+# Received 4
+# Received 9
+# Received 16
+# Received 25
+# Received 36
+# Received 49
+# Received 64
+# Received 81
+
+arr1 = list(g1)
+# arr1 = [], because the loop above already consumed all the values.
+g2 = function()
+arr2 = list(g2)  # arr2 = [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+Since generator objects are iterators, one can iterate over them manually using the next() function. It will return the yielded values one by one on each subsequent invocation.
+
+Under the hood, each time you call next() on a generator, Python executes statements in the body of the generator function until it hits the next yield statement.
+At this point it returns the argument of the yield command, and remembers the point where that happened. 
+Calling next() once again will resume execution from that point and continue until the next yield statement.
+
+If Python reaches the end of the generator function without encountering any more yields, a StopIteration exception is raised (this is normal, all iterators behave in the same way).
+
+g3 = function()
+a = next(g3)  # x becomes 0
+b = next(g3)  # y becomes 1
+c = next(g3)  # z becomes 2
+...
+j = next(g3)  # Raises StopIteration, z remains undefined
+Note that in Python 2 generator objects had .next() methods that could be used to iterate through the yielded values manually.
+In Python 3 this method was replaced with the .__next__() standard for all iterators.

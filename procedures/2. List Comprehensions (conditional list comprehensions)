@@ -1,0 +1,71 @@
+A list comprehension is a syntactical tool for creating lists in a natural and concise way, as illustrated in the following code to make a 
+list of squares of the numbers 1 to 10:  [i ** 2 for i in range(1,11)] The dummy i from an existing list range is used to make a new element pattern.
+
+It is used where a for loop would be necessary in less expressive languages.
+
+
+Given a list comprehension you can append one or more if conditions to filter values.
+
+[<expression> for <element> in <iterable> if <condition>]
+For each <element> in <iterable>; if <condition> evaluates to True, add <expression> (usually a function of <element>) to the returned list.
+
+For example, this can be used to extract only even numbers from a sequence of integers:
+
+[x for x in range(10) if x % 2 == 0]
+# Out: [0, 2, 4, 6, 8]
+Live demo
+
+The above code is equivalent to:
+
+even_numbers = [] 
+for x in range(10):
+    if x % 2 == 0:
+        even_numbers.append(x)
+
+print(l)
+# Out: [0, 2, 4, 6, 8]
+Also, a conditional list comprehension of the form [e for x in y if c] (where e and c are expressions in terms of x) is equivalent to list(filter(lambda x: c, map(lambda x: e, y))).
+
+Despite providing the same result, pay attention to the fact that the former example is almost 2x faster than the latter one.
+For those who are curious, this is a nice explanation of the reason why.
+
+Note that this is quite different from the ... if ... else ... conditional expression (sometimes known as a ternary expression) that you can use for the <expression> part of the 
+list comprehension. Consider the following example:
+
+[x if x % 2 == 0 else None for x in range(10)]
+# Out: [0, None, 2, None, 4, None, 6, None, 8, None]
+Live demo
+
+Here the conditional expression isn't a filter, but rather an operator determining the value to be used for the list items:
+
+<value-if-condition-is-true> if <condition> else <value-if-condition-is-false>
+This becomes more obvious if you combine it with other operators:
+
+[2 * (x if x % 2 == 0 else -1) + 1 for x in range(10)]
+# Out: [1, -1, 5, -1, 9, -1, 13, -1, 17, -1]
+Live demo
+
+If you are using Python 2.7, xrange may be better than range for several reasons as described in the xrange documentation.
+
+[2 * (x if x % 2 == 0 else -1) + 1 for x in xrange(10)]
+# Out: [1, -1, 5, -1, 9, -1, 13, -1, 17, -1]
+The above code is equivalent to:
+
+numbers = []
+for x in range(10):
+    if x % 2 == 0:
+        temp = x
+    else:
+        temp = -1
+    numbers.append(2 * temp + 1)
+print(l)
+# Out: [1, -1, 5, -1, 9, -1, 13, -1, 17, -1]
+One can combine ternary expressions and if conditions. The ternary operator works on the filtered result:
+
+[x if x > 2 else '*' for x in range(10) if x % 2 == 0]
+# Out: ['*', '*', 4, 6, 8]
+The same couldn't have been achieved just by ternary operator only:
+
+[x if (x > 2 and x % 2 == 0) else '*' for x in range(10)]
+# Out:['*', '*', '*', '*', 4, '*', 6, '*', 8, '*']
+See also: Filters, which often provide a sufficient alternative to conditional list comprehensions. Note that filter() is discouraged in Python.

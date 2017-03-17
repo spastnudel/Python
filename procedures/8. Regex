@@ -1,0 +1,34 @@
+The first argument of re.match() is the regular expression, the second is the string to match:
+
+import re
+
+pattern = "123"
+string = "123zzb"
+
+re.match(pattern, string)
+# Out: <_sre.SRE_Match object; span=(0, 3), match='123'>
+
+match = re.match(pattern, string)
+
+match.group()
+# Out: '123'
+You may notice that the pattern variable is a string prefixed with r, which indicates that the string is a raw string.
+
+A "raw string literal" is a slightly different syntax for a string literal, in which a backslash, \, is taken as meaning "just a backslash" 
+(except when it comes right before a quote that would otherwise terminate the literal) -- no "escape sequences" to represent newlines (\n), tabs (\t), backspaces (\), form-feeds (\r), and so on.
+In normal string literals, each backslash must be doubled up to avoid being taken as the start of an escape sequence.
+
+Hence, r"\n" is a string of 2 characters \ and n. The regex patterns also uses backslash, eg. \d refer to any digit character.
+We avoid having to double escape our strings ("\\d") by using raw strings (r"\d").
+
+Matching is done from the start of the string only. If you want to match anywhere use re.search:
+
+match = re.match(r"(123)", "a123zzb")
+
+match is None
+# Out: True
+
+match = re.search(r"(123)", "a123zzb")
+
+match.group(1)
+# Out: '123'

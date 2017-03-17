@@ -1,0 +1,49 @@
+Consider the case of creating a nested list structure by multiplying:
+
+li = [[]] * 3
+print(li)
+# Out: [[], [], []]
+At first glance we would think we have a list of containing 3 different nested lists. Let's try to append 1 to the first one:
+
+li[0].append(1)
+print(li)
+# Out: [[1], [1], [1]]
+1 got appended to all of the lists in li.
+
+The reason is that [[]] * 3 doesn't create a list of 3 different lists. Rather, it creates a list holding 3 references to the same list object.
+As such, when we append to li[0] the change is visible in all sub-elements of li. This is equivalent of:
+
+li = []
+element = []
+li.append(element)
+li.append(element)
+li.append(element)
+print(li)
+# Out: [[], [], []]
+element.append(1)
+print(li)
+# Out: [[1], [1], [1]]
+This can be further corroborated if we print the memory addresses of the contained list by using id:
+
+li = [[]] * 3
+print([id(inner_list) for inner_list in li])
+# Out: [6830760, 6830760, 6830760]
+The solution is to create the inner lists with a loop:
+
+li = [[] for _ in range(3)]
+Instead of creating a single list and then making 3 references to it, we now create 3 different distinct lists. This, again, can be verified by using the id function:
+
+print([id(inner_list) for inner_list in li])
+# Out: [6331048, 6331528, 6331488]
+You can also do this. It causes a new empty list to be created in each append call.
+
+>>> li = []
+>>> li.append([])
+>>> li.append([])
+>>> li.append([])
+>>> for k in li: print(id(k))
+... 
+4315469256
+4315564552
+4315564808
+>>> 

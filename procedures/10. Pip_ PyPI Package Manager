@@ -1,0 +1,19 @@
+To install the latest version of a package named SomePackage:
+
+$ pip install SomePackage
+To install a specific version of a package:
+
+$ pip install SomePackage==1.0.4
+To specify a minimum version to install for a package:
+
+$ pip install SomePackage>=1.0.4
+If commands shows permission denied error on Linux/Unix then use sudo with the commands
+
+Install from requirements files
+
+$ pip install -r requirements.txt
+Each line of the requirements file indicates something to be installed, and like arguments to pip install, Details on the format of the files are here: Requirements File Format.
+
+After install the package you can check it using freeze command:
+
+$ pip freeze

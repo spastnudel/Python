@@ -1,0 +1,106 @@
+List comprehensions in Python are concise, syntactic constructs.
+They can be utilized to generate lists from other lists by applying functions to each element in the list.
+The following section explains and demonstrates the use of these expressions.
+
+A list comprehension creates a new list by applying an expression to each element of an iterable. The most basic form is:
+
+[ <expression> for <element> in <iterable> ]
+There's also an optional 'if' condition:
+
+[ <expression> for <element> in <iterable> if <condition> ]
+Each <element> in the <iterable> is plugged in to the <expression> if the (optional) <condition> evaluates to true .
+All results are returned at once in the new list. Generator expressions are evaluated lazily, but list comprehensions evaluate the entire iterator immediately - 
+consuming memory proportional to the iterator's length.
+
+To create a list of squared integers:
+
+squares = [x * x for x in (1, 2, 3, 4)]
+# squares: [1, 4, 9, 16]
+The for expression sets x to each value in turn from (1, 2, 3, 4). The result of the expression x * x is appended to an internal list.
+The internal list is assigned to the variable squares when completed.
+
+Besides a speed increase (as explained here), a list comprehension is roughly equivalent to the following for-loop:
+
+squares = []
+for x in (1, 2, 3, 4):
+    squares.append(x * x)
+# squares: [1, 4, 9, 16]
+The expression applied to each element can be as complex as needed:
+
+# Get a list of uppercase characters from a string
+[s.upper() for s in "Hello World"]
+# ['H', 'E', 'L', 'L', 'O', ' ', 'W', 'O', 'R', 'L', 'D']
+
+# Strip a comma off the end of strings in a list
+[w.strip(',') for w in ['these,', 'words,', 'mostly', 'havecommas,']]
+# ['these', 'words', 'mostly', 'havecommas']
+
+# Organize letters in words more reasonably - in an alphabetical order
+sentence = "Beautiful is better than ugly"
+["".join(sorted(word, key = lambda x: x.lower())) for word in sentence.split()]
+# ['aBefiltuu', 'is', 'beertt', 'ahnt', 'gluy']
+else
+
+else can be used in List comprehension constructs, but be careful regarding the syntax. The if/else clauses should be used before for loop, not after:
+
+# create a list of characters in apple, replacing non vowels with '*'
+# Ex - 'apple' --> ['a', '*', '*', '*' ,'e']
+
+[x for x in 'apple' if x in 'aeiou' else '*']
+#SyntaxError: invalid syntax
+
+# When using if/else together use them before the loop
+[x if x in 'aeiou' else '*' for x in 'apple']
+#['a', '*', '*', '*', 'e']
+Note this uses a different language construct, a conditional expression, which itself is not part of the comprehension syntax.
+Whereas the if after the for…in is a part of list comprehensions and used to filter elements from the source iterable.
+
+Double Iteration
+
+Order of double iteration [... for x in ... for y in ...] is either natural or counter-intuitive. The rule of thumb is to follow an equivalent for loop:
+
+def foo(i):
+    return i, i + 0.5
+
+for i in range(3):
+    for x in foo(i):
+        yield str(x)
+This becomes:
+
+[str(x)
+    for i in range(3)
+        for x in foo(i)
+]
+This can be compressed into one line as [str(x) for i in range(3) for x in foo(i)]
+
+In-place Mutation and Other Side Effects
+
+Before using list comprehension, understand the difference between functions called for their side effects (mutating, or in-place functions) which usually return None,
+ and functions that return an interesting value.
+
+Many functions (especially pure functions) simply take an object and return some object. An in-place function modifies the existing object, which is called a side effect.
+Other examples include input and output operations such as printing.
+
+list.sort() sorts a list in-place (meaning that it modifies the original list) and returns the value None. Therefore it won't work as expected in a list comprehension:
+
+[x.sort() for x in [[2, 1], [4, 3], [0, 1]]]
+# [None, None, None]
+Instead, sorted() returns a sorted list rather than sorting in-place:
+
+[sorted(x) for x in [[2, 1], [4, 3], [0, 1]]]
+# [[1, 2], [3, 4], [0, 1]]
+Using comprehensions for side-effects is possible, such as I/O or in-place functions. Yet a for loop is usually more readable. While this works in Python 3:
+
+[print(x) for x in (1, 2, 3)]
+Instead use:
+
+for x in (1, 2, 3):
+    print(x)
+In some situations, side effect functions are suitable for list comprehension. random.randrange() has the side effect of changing the state of the random number generator, 
+but it also returns an interesting value. Additionally, next() can be called on an iterator.
+
+The following random value generator is not pure, yet makes sense as the random generator is reset every time the expression is evaluated:
+
+from random import randrange
+[randrange(1, 7) for _ in range(10)]
+# [2, 3, 2, 1, 1, 5, 2, 4, 3, 5]

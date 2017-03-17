@@ -1,0 +1,151 @@
+Python is a high-level, structured, open-source, dynamically typed programming language that can be used for a wide variety of tasks.
+
+Two major versions of Python are currently in active use:
+
+Python 3.x is the current version and is under active development.
+Python 2.x is the legacy version and will receive only security updates until 2020.
+No new features will be implemented. Note that many projects still use Python 2 although updating to Python 3 is getting easier.
+You can download and install the latest version of Python 3, or 2, here. See Python 3 vs. Python 2 for a comparison between them.
+In addition, some third-parties offer re-packaged versions of Python that add commonly used libraries and other features to ease setup for common use cases—such as math, 
+data analysis or scientific use. See the list at the official site.
+
+Verify if Python is installed
+
+If you want to confirm if Python was installed correctly, you can verify that by running the following command in your favorite terminal:
+
+$ python --version
+Python 3.x3.0
+If you have Python 3 installed, and it is your default version (see Troubleshooting for more details) you should see something like this:
+
+$ python --version
+Python 3.6.0
+Python 2.x2.7
+If you have Python 2 installed, and it is your default version (see Troubleshooting for more details) you should see something like this:
+
+$ python --version
+Python 2.7.13
+If you have installed Python 3, but $ python --version outputs a Python 2 version, you also have Python 2 installed (this is often the case on MacOS and many Linux distributions).
+Use $ python3 instead to explicitly use the Python 3 interpreter.
+
+Hello, World in Python using IDLE
+
+IDLE is a simple editor for Python, that comes bundled with Python.
+
+How to create Hello, World program in IDLE
+
+Open IDLE on your system of choice.
+In older versions of Windows, it can be found at All Programs under the Windows menu.
+In Windows 8+, search for IDLE or find it in the apps that are present in your system.
+On Unix-based (including Mac) systems you can open it from the shell by typing $ idle python_file.py.
+It will open a shell with options along the top.
+In the shell, there is a prompt of three right angle brackets:
+
+>>>
+Now write the following code in the prompt:
+
+>>> print("Hello, World")
+Hit Enter
+
+>>> print("Hello, World")
+Hello, World
+Hello World Python file
+
+Create a new file hello.py that contains the following line:
+
+Python 3.x3.0
+print('Hello, World')
+Python 2.x2.6
+You can use the Python 3 print function in Python 2 with the following import statement:
+
+from __future__ import print_function
+Python 2 has a number of functionalities that can be optionally imported from Python 3 using the __future__ module, as discussed here.
+
+Python 2.x2.7
+If using Python 2, you may also type the line below. Note that this is not valid in Python 3 and thus not recommended because it reduces cross-version code compatibility.
+
+print 'Hello, World'
+In your terminal, navigate to the directory containing the file hello.py.
+
+Type python hello.py, then hit the Enter key.
+
+$ python hello.py
+Hello, World
+You should see Hello, World printed to the console.
+
+You can also substitute hello.py with the path to your file.
+For example, if you have the file in your home directory and your user is "user" on Linux, you can type python /home/user/hello.py.
+
+Launch an interactive Python shell
+
+By executing (running) the python command in your terminal, you are presented with an interactive Python shell (also known as a REPL)
+
+$ python
+Python 2.7.12 (default, Jun 28 2016, 08:46:01) 
+[GCC 6.1.1 20160602] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> print 'Hello, World'
+Hello, World
+>>>
+If you want to run python3 from your terminal, execute the command python3.
+
+$ python3
+Python 3.5.2 (default, Jun 28 2016, 08:46:01) 
+[GCC 6.1.1 20160602] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> print('Hello, World')
+Hello, World
+>>>
+Alternatively, start the interactive prompt and load file with python -i <file.py>.
+
+In command line, run:
+
+$ python -i hello.py
+"Hello World"
+>>>
+The interactive Python shell is a very practical tool for learning and testing the features of the Python language while playing with the values and syntax interactively.
+
+There are multiple ways to close the Python shell from the terminal.
+
+If you still want to use the terminal, run this:
+
+>>> quit()
+or press Ctrl-C. The other (obvious) way is to simply close the terminal.
+
+Doing quit() from IDLE will close the window, and pressing Ctrl-C in IDLE won't do anything other than display "KeyboardInterrupt".
+
+Try an interactive Python shell online.
+
+Other Online Shell
+
+Various websites provides online access to Python Shells.
+
+Online Shell may be useful for following purposes:
+
+Run a small code snippet from a machine which lacks python installation(smartphones, tablets etc).
+Learn or teach basic Python.
+Solve online judge problems.
+Examples:
+
+Disclaimer: documentation author(s) are not affiliated with any resources listed below.
+https://ideone.com/ -Widely used on the Net to illustrate code snippet behavior.
+https://repl.it/languages/python3 - Powerful and simple online compiler, IDE and interpreter. Code, compile, and run code in Python.
+https://www.tutorialspoint.com/execute_python_online.php - Full-featured UNIX shell, and a user-friendly project explorer.
+Run commands as a string
+
+Python can be passed arbitrary code as a string in the shell:
+
+$ python -c 'print("Hello, World")'
+Hello, World
+This can be useful when concatenating the results of scripts together in the shell.
+
+Shells and Beyond
+
+Shells - So far, we have discussed different ways to run code using Python's native interactive shell. Shells use Python's interpretive power for experimenting with code real-time.
+Alternative shells include IDLE - a pre-bundled GUI, IPython - known for extending the interactive experience, etc.
+
+Programs - For long-term storage you can save content to .py files and edit/execute them as scripts or programs with external tools e.g. shell, IDEs (such as PyCharm), Jupyter notebooks, etc.
+Intermediate users may use these tools; however, the methods discussed here are sufficient for getting started.
+
+Python tutor allows you to step through python code so you can visualize how the program will flow, and helps you to understand where your program went wrong.
+
+PEP8 defines guidelines for formatting Python code. Formatting code well is important so you can quickly read what the code does.

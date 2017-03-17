@@ -1,0 +1,35 @@
+Web scraping is an automated, programmatic process through which data can be constantly 'scraped' off webpages.
+Also known as screen scraping or web harvesting, web scraping can provide instant data from any publicly accessible webpage. 
+On some websites, web scraping may be illegal.
+
+
+First you have to set up a new Scrapy project. Enter a directory where you’d like to store your code and run:
+
+scrapy startproject projectName
+To scrape we need a spider. Spiders define how a certain site will be scraped.
+Here’s the code for a spider that follows the links to the top voted questions on StackOverflow and scrapes some data from each page (source):
+
+import scrapy
+
+class StackOverflowSpider(scrapy.Spider):
+    name = 'stackoverflow'  # each spider has a unique name
+    start_urls = ['http://stackoverflow.com/questions?sort=votes']  # the parsing starts from a specific set of urls
+
+    def parse(self, response):  # for each request this generator yields, its response is sent to parse_question
+        for href in response.css('.question-summary h3 a::attr(href)'):  # do some scraping stuff using css selectors to find question urls 
+            full_url = response.urljoin(href.extract())
+            yield scrapy.Request(full_url, callback=self.parse_question)
+
+    def parse_question(self, response): 
+        yield {
+            'title': response.css('h1 a::text').extract_first(),
+            'votes': response.css('.question .vote-count-post::text').extract_first(),
+            'body': response.css('.question .post-text').extract_first(),
+            'tags': response.css('.question .post-tag::text').extract(),
+            'link': response.url,
+        }
+Save your spider classes in the projectName\spiders directory. In this case - projectName\spiders\stackoverflow_spider.py.
+
+Now you can use your spider. For example, try running (in the project's directory):
+
+scrapy crawl stackoverflow
